@@ -2,11 +2,14 @@
 #define QIHOO_INI_PARSER_H_
 
 #include <string>
+#include <map>
 
 namespace qh
 {
     class INIParser
     {
+        typedef std::map<std::string, std::string> KeyMap;
+        typedef std::map<std::string, KeyMap> SectionMap;
     public:
         INIParser();
         ~INIParser();
@@ -37,6 +40,8 @@ namespace qh
         const std::string& Get(const std::string& section, const std::string& key, bool* found);
 
     private:
+        SectionMap sectionMap;
+        void lineProcess(const std::string& line, const std::string& key_value_seperator, std::string& section);
     };
 }
 
