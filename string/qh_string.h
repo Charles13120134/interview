@@ -27,6 +27,9 @@ namespace qh
         char* operator[](size_t index);
 
     private:
+        //len_ is set already
+        void getNewData(const char* s);
+
         char*  data_;
         size_t len_;
     };
