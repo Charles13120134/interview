@@ -81,19 +81,20 @@ bool hillCmpFunc(const Hill& lhs, const Hill& rhs){
 }
 
 //adjust hill seq according to it's new start
-void Climber::adjustHill(const std::list<Hill>::iterator _iter){
+void Climber::adjustHill(std::list<Hill>::iterator& _iter){
     std::list<Hill>::iterator cur = _iter;
     std::list<Hill>::iterator next = _iter;
     Hill toBeAdjust(cur->start, cur->end, cur->height);
     
-    while(next != hillList.end() && next->start < cur->start)
+    while(next != hillList.end() && next->start <= cur->start)
         next++;
     hillList.insert(next, toBeAdjust);
-    hillList.erase(cur);
+    _iter = hillList.erase(cur);
+    _iter--;
 }
 
 
-void Climber::newHillOverlapOldProcess(const std::list<Hill>::iterator iter, 
+void Climber::newHillOverlapOldProcess(std::list<Hill>::iterator& iter, 
         size_t& curStart,
         size_t& curEnd,
         size_t& curHeight,
@@ -113,7 +114,7 @@ void Climber::newHillOverlapOldProcess(const std::list<Hill>::iterator iter,
     }
 }
 
-void Climber::newHillInOldProcess(std::list<Hill>::iterator iter, 
+void Climber::newHillInOldProcess(std::list<Hill>::iterator& iter, 
         size_t& curStart,
         size_t& curEnd,
         size_t& curHeight,

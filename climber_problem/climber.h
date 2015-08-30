@@ -25,11 +25,11 @@ private:
  
     size_t str2Uint(const char* , size_t) const;
     void processHillDataStr(const char*);
-    void adjustHill(const std::list<Hill>::iterator);
+    void adjustHill(std::list<Hill>::iterator&);
 
-    void newHillOverlapOldProcess(const std::list<Hill>::iterator, 
+    void newHillOverlapOldProcess(std::list<Hill>::iterator&, 
         size_t& ,size_t& ,size_t& ,size_t&);
-    void newHillInOldProcess(std::list<Hill>::iterator, 
+    void newHillInOldProcess(std::list<Hill>::iterator&, 
         size_t& ,size_t& ,size_t& ,size_t&);
     void newHillAwayOldProcess(const std::list<Hill>::iterator, 
         size_t& ,size_t& ,size_t& ,size_t&);
