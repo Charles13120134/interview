@@ -100,6 +100,48 @@ namespace qh
     {
 #if 1
         //TODO 请面试者在这里添加自己的代码实现以完成所需功能
+	sub_url.assign("");
+	//find argument start position, if no token "?" return ""
+	size_t argStart = 0;
+	argStart = raw_url.find("?");
+	if(argStart == std::string::npos){
+		return;
+	}
+	
+	size_t keyStart = argStart;
+	//process every argumemt
+	while(1)
+	{
+		keyStart++;
+		size_t nextKeyStart = raw_url.find_first_of("&", keyStart);
+		if(nextKeyStart == std::string::npos){
+			//process last argument
+			size_t keyEnd = raw_url.find_first_of("=", keyStart);
+			if(keyEnd != std::string::npos){
+				std::string key = raw_url.substr(keyStart, keyEnd - keyStart);
+				if(keys.end() != keys.find(key)){
+					size_t valueStart = keyEnd + 1;
+					size_t valueEnd = raw_url.size();
+					sub_url += raw_url.substr(valueStart, valueEnd - valueStart);
+				}
+			}
+			break;
+		}else{
+			//process mid argument
+			size_t keyEnd = raw_url.find_first_of("=", keyStart);
+			if(keyEnd != std::string::npos && keyEnd < nextKeyStart - 1){
+				std::string key = raw_url.substr(keyStart, keyEnd - keyStart);
+				if(keys.end() != keys.find(key)){
+					size_t valueStart = keyEnd + 1;
+					size_t valueEnd = nextKeyStart;
+					sub_url += raw_url.substr(valueStart, valueEnd - valueStart);
+				}
+			}
+			keyStart = nextKeyStart;
+		}//end else
+	}//end while(1)
+	
+
 #else
         //这是一份参考实现，但在特殊情况下工作不能符合预期
         Tokener token(raw_url);
